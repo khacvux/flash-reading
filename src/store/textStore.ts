@@ -7,4 +7,5 @@ export const useTextStore = create<ITextStore>()((set, get) => ({
     set({
       text,
     }),
+  clearText: () => set({ text: "" }),
 }));
