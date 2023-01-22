@@ -11,7 +11,7 @@ function Menu({ constraintsRef }: any) {
   const setText = useTextStore((state) => state.setText);
   const [textarea, setTextarea] = useState<string>();
   const clearText = useTextStore((state) => state.clearText);
-  const setPause = useMainStore(state => state.setPause)
+  const mainStore = useMainStore()
 
   const handleInput = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setTextarea(event.target.value);
@@ -19,7 +19,8 @@ function Menu({ constraintsRef }: any) {
   const handleSubmit = () => {
     if (textarea?.length) {
         setText(textarea);
-        setPause(false)
+        mainStore.setPause(false)
+        mainStore.setReplay(false)
     }
   };
   return (
