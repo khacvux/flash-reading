@@ -8,6 +8,7 @@ export const useMainStore = create<IMainStore>()(
       readSpeed: 500, //number of miliseconds for visible a word
       wordsPerMin: 120,
       changeReadSpeed: (wordsPerMin) => {
+        if (wordsPerMin > 1000 || wordsPerMin <= 0) return;
         set({
           readSpeed: 60000 / wordsPerMin,
           wordsPerMin,
@@ -24,6 +25,14 @@ export const useMainStore = create<IMainStore>()(
         set({
           isReplay: bool,
         });
+      },
+      backEffectVisible: false,
+      forwardEffectVisible: false,
+      setBackEffectVisible: (bool) => {
+        set({ backEffectVisible: bool });
+      },
+      setForwardEffectVisible: (bool) => {
+        set({ forwardEffectVisible: bool });
       },
     }),
     {

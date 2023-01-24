@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100;200;300;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100;200;300;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -39,4 +39,8 @@ a:hover {
 ::selection {
   background: #73777B30;
   border-radius: 10px;
+}
+
+.selection-none::selection {
+  background: #00000000;
 }

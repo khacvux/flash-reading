@@ -9,10 +9,9 @@ function PlayEffect({
   coords: ICoordinates;
   isPause: Boolean;
 }) {
-  console.log("rerender");
   const [visible, setVisible] = useState<Boolean>(false);
   useEffect(() => {
-    setVisible(true);
+    if (coords.x != 0) setVisible(true);
     const timer = setTimeout(() => {
       setVisible(false);
     }, 2500);
@@ -26,7 +25,7 @@ function PlayEffect({
       className={`absolute z-[10] cursor-default text-white`}
       style={{ top: coords.y - 15, left: coords.x - 15 }}
     >
-      {isPause ? <Play /> : <Pause />}
+      {isPause ? <Pause /> : <Play />}
     </div>
   );
 }

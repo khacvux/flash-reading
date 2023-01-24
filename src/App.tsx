@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { MouseEvent, useEffect, useMemo, useRef, useState } from "react";
 import Menu from "./components/Menu";
 import { motion } from "framer-motion";
 import { useMainStore } from "./store/mainStore";
 import { ICoordinates } from "./dtos/coordinates.dto";
 import PlayEffect from "./components/PlayEffect";
 import { useTextStore } from "./store/textStore";
+import { IPlayerActions } from "./dtos/main.dto";
+import Playback from "./components/Playback";
 
 function App() {
   const text = useTextStore((state) => state.text);
@@ -12,8 +14,7 @@ function App() {
 
   const constraintsRef = useRef(null);
   const [i, set_i] = useState<number>(0);
-  const [currentText, setCurentText] = useState<string>();
-  // const [replay, setReplay] = useState<Boolean>(false);
+  const [currentText, setCurentText] = useState<string>("Flash Reading!");
   const splited = useMemo(() => text.split(" "), [text]);
   const [coords, setCoords] = useState<ICoordinates>({ x: 0, y: 0 });
   const mainStore = useMainStore();
@@ -25,6 +26,24 @@ function App() {
   const handleReplay = () => {
     set_i(0);
     mainStore.setReplay(false);
+  };
+
+  const handlePlayer = (action: IPlayerActions): void => {
+    switch (action) {
+      case IPlayerActions.BACK: {
+        if (i <= 0) break;
+        set_i(i - 10);
+        mainStore.setReplay(false);
+        break;
+      }
+      // FORWARD 10 WORDS
+      case IPlayerActions.FORWARD: {
+        if (i >= splited.length) break;
+        set_i(i + 10);
+        mainStore.setReplay(false);
+        break;
+      }
+    }
   };
 
   useEffect(() => {
@@ -58,11 +77,48 @@ function App() {
         y: event.clientY,
       });
     };
+
     window.addEventListener("click", handleWindowMouseMove);
     return () => {
       window.removeEventListener("click", handleWindowMouseMove);
     };
   }, []);
+
+  useEffect(() => {
+    const handleSpaceKeypress = (event: any) => {
+      console.log(event.code);
+      switch (event.code) {
+        case "KeyP": {
+          handlePause();
+          break;
+        }
+        case "KeyK": {
+          handlePlayer(IPlayerActions.BACK);
+          mainStore.setBackEffectVisible(true);
+          break;
+        }
+        case "KeyL": {
+          handlePlayer(IPlayerActions.FORWARD);
+          mainStore.setForwardEffectVisible(true);
+          break;
+        }
+        case "Comma": {
+          mainStore.changeReadSpeed(mainStore.wordsPerMin - 10);
+          break;
+        }
+        case "Period": {
+          mainStore.changeReadSpeed(mainStore.wordsPerMin + 10);
+          break;
+        }
+        default:
+          break;
+      }
+    };
+    window.addEventListener("keypress", handleSpaceKeypress);
+    return () => {
+      window.removeEventListener("keypress", handleSpaceKeypress);
+    };
+  }, [mainStore.isPause, i, mainStore.wordsPerMin]);
 
   return (
     <motion.div
@@ -84,6 +140,7 @@ function App() {
           </button>
         )}
       </div>
+      <Playback setCoords={setCoords} handlePlayer={handlePlayer} />
       <PlayEffect coords={coords} isPause={mainStore.isPause} />
       <Menu constraintsRef={constraintsRef} />
     </motion.div>

@@ -34,7 +34,7 @@ export default function Slider() {
       <CustomSlider
         defaultValue={120}
         min={1}
-        max={800}
+        max={1000}
         sx={{
           width: "100%",
           height: "35px",

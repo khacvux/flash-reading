@@ -6,4 +6,13 @@ export interface IMainStore {
   setPause: (bool: Boolean) => void;
   isReplay: Boolean;
   setReplay: (bool: Boolean) => void;
+  backEffectVisible: Boolean;
+  forwardEffectVisible: Boolean;
+  setBackEffectVisible: (bool: Boolean) => void;
+  setForwardEffectVisible: (bool: Boolean) => void;
+}
+
+export enum IPlayerActions {
+  BACK = "BACK",
+  FORWARD = "FORWARD",
 }
