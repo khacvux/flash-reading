@@ -28,7 +28,7 @@ export default function Playback({
   useEffect(() => {
     const timer = setTimeout(() => {
       mainStore.setBackEffectVisible(false);
-    }, 1000);
+    }, 700);
     return () => clearTimeout(timer);
   }, [mainStore.backEffectVisible]);
 
