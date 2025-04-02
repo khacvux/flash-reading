@@ -6,6 +6,4 @@ services:
       context: .
       dockerfile: Dockerfile.prod
     container_name: flash-reading
-    restart: unless-stopped
-    volumes:
-      - ./default.conf:/etc/nginx/conf.d/default.conf
+    restart: unless-stopped 
