@@ -7,3 +7,5 @@ services:
       dockerfile: Dockerfile.prod
     container_name: flash-reading
     restart: unless-stopped 
+    ports:
+      - "4173:4173"
